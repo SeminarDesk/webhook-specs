@@ -1,0 +1,1152 @@
+openapi: 3.0.3
+info:
+  version: v1
+  title: SeminarDesk Webhooks
+  contact:
+    name: SeminarDesk support
+    url: https://www.seminardesk.de
+    email: support@seminardesk.de
+paths: {}
+
+components:
+  callbacks:
+    'event.create':
+      'ExampleCallbackUrl':
+        description: Will be called when a new event is created and published.
+        post:
+          requestBody:
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/EventCreateRequest'
+          responses:
+            200:
+              description: OK
+    'event.update':
+      'ExampleCallbackUrl':
+        description: Will be called when an event is updated.
+        post:
+          requestBody:
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/EventUpdateRequest'
+          responses:
+            200:
+              description: OK        
+    'event.delete':
+      'ExampleCallbackUrl':
+        description: Will be called when an event is deleted/unpublished.
+        post:
+          requestBody:
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/EventDeleteRequest'
+          responses:
+            200:
+              description: OK                  
+    
+    'eventDate.create':
+      'ExampleCallbackUrl':
+        description: Will be called when a new event date is created and published.
+        post:
+          requestBody:
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/EventDateCreateRequest'
+          responses:
+            200:
+              description: OK
+    'eventDate.update':
+      'ExampleCallbackUrl':
+        description: Will be called when an event date is updated.
+        post:
+          requestBody:
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/EventDateUpdateRequest'
+          responses:
+            200:
+              description: OK        
+    'eventDate.delete':
+      'ExampleCallbackUrl':
+        description: Will be called when an event date is deleted/unpublished.
+        post:
+          requestBody:
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/EventDateDeleteRequest'
+          responses:
+            200:
+              description: OK
+    
+    'facilitator.create':
+      'ExampleCallbackUrl':
+        description: Will be called when a new facilitator is created.
+        post:
+          requestBody:
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/FacilitatorCreateRequest'
+          responses:
+            200:
+              description: OK
+    'facilitator.update':
+      'ExampleCallbackUrl':
+        description: Will be called when facilitator is updated.
+        post:
+          requestBody:
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/FacilitatorUpdateRequest'
+          responses:
+            200:
+              description: OK        
+    'facilitator.delete':
+      'ExampleCallbackUrl':
+        description: Will be called when a facilitator is deleted.
+        post:
+          requestBody:
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/FacilitatorDeleteRequest'
+          responses:
+            200:
+              description: OK                  
+    
+    'labelGroup.create':
+      'ExampleCallbackUrl':
+        description: Will be called when a new label group is created and published.
+        post:
+          requestBody:
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/LabelGroupCreateRequest'
+          responses:
+            200:
+              description: OK
+    'labelGroup.update':
+      'ExampleCallbackUrl':
+        description: Will be called when a label group is updated.
+        post:
+          requestBody:
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/LabelGroupUpdateRequest'
+          responses:
+            200:
+              description: OK        
+    'labelGroup.delete':
+      'ExampleCallbackUrl':
+        description: Will be called when a label group is deleted/unpublished.
+        post:
+          requestBody:
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/LabelGroupDeleteRequest'
+          responses:
+            200:
+              description: OK
+              
+    'booking.create':
+      'ExampleCallbackUrl':
+        description: Will be called when a new booking is created.
+        post:
+          requestBody:
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/BookingCreateRequest'
+          responses:
+            200:
+              description: OK
+    'booking.statuschanged':
+      'ExampleCallbackUrl':
+        description: Will be called when a booking's status is changed.
+        post:
+          requestBody:
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/BookingStatusChangeRequest'
+          responses:
+            200:
+              description: OK        
+    'booking.delete':
+      'ExampleCallbackUrl':
+        description: Will be called when a booking is deleted.
+        post:
+          requestBody:
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/BookingDeleteRequest'
+          responses:
+            200:
+              description: OK                   
+
+    'invoice.post':
+      'ExampleCallbackUrl':
+        description: Will be called when an invoice was posted.
+        post:
+          requestBody:
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/InvoicePostedRequest'
+          responses:
+            200:
+              description: OK
+    'invoice.cancel':
+      'ExampleCallbackUrl':
+        description: Will be called when an invoice was canceled.
+        post:
+          requestBody:
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/InvoiceCanceledRequest'
+          responses:
+            200:
+              description: OK
+
+  schemas:
+    EventPayload:
+      type: object
+      required: [id, title, subtitle, teaser, description, headerPictureUrl, teaserPictureUrl, bookingPageUrl, infoDatesPrices, infoBoardLoding, infoMisc, facilitators, contactPersons, registrationAvailable, detailpageAvailable, previewAvailable, labels, status, datesAreCoherent]
+      properties:
+        id: 
+          $ref: '#/components/schemas/EventId'
+        title:
+          $ref: '#/components/schemas/LocalizedString'   
+        subtitle:
+          $ref: '#/components/schemas/LocalizedString'
+        teaser:
+          $ref: '#/components/schemas/LocalizedString'
+        description:
+          $ref: '#/components/schemas/LocalizedString'
+        headerPictureUrl:
+          $ref: '#/components/schemas/LocalizedString'
+        teaserPictureUrl:
+          $ref: '#/components/schemas/LocalizedString'
+        bookingPageUrl:
+          description: The URL of the booking page for this event
+          allOf:
+            - $ref: '#/components/schemas/LocalizedString'
+        infoDatesPrices:
+          $ref: '#/components/schemas/LocalizedString'
+        infoBoardLodging:
+          $ref: '#/components/schemas/LocalizedString'
+        infoMisc:
+          $ref: '#/components/schemas/LocalizedString'
+        facilitators:
+          type: array
+          items:
+            type: object
+            required: [id]
+            properties:
+              id:
+                $ref: '#/components/schemas/NumericPrimaryKey'
+        contactPersons:
+          type: array
+          items:
+            $ref: '#/components/schemas/ContactPerson'   
+        registrationAvailable:
+          type: boolean
+        detailpageAvailable:
+          type: boolean          
+        previewAvailable:
+          type: boolean
+        labels:
+          type: array
+          items:
+            # TODO replace with domain!
+            #$ref: 'https://api.swaggerhub.com/domains/SeminarDesk/commons/1.0.0#/definitions/Label'
+            $ref: '#/components/schemas/Label'
+        additionalFields:
+          type: array
+          items:
+            $ref: '#/components/schemas/AdditionalField'
+        datesAreCoherent:
+          description: Determines whether this event is marked as "multi-part"
+          type: boolean
+  
+    EventDatePayload:
+      type: object
+      required: [id, eventId, status, beginDate, endDate, title, attendanceType, facilitators]
+      properties:
+        id:
+          $ref: '#/components/schemas/NumericPrimaryKey'
+        eventId:
+          $ref: '#/components/schemas/EventId'
+        bookingPageStatus:
+          type: string
+          enum: 
+            - 'available'
+            - 'limited'
+            - 'fully_booked'
+            - 'wait_list'
+            - 'just_on_list'
+            - 'canceled'
+        status:
+          type: object
+          required: [name, bookingAllowed, isCanceled]
+          properties:
+            name:
+              type: string
+            bookingAllowed:
+              type: boolean
+            isCanceled:
+              type: boolean  
+        beginDate:
+          $ref: '#/components/schemas/Timestamp'
+        endDate:
+          $ref: '#/components/schemas/Timestamp'
+        registrationStart:
+          allOf:
+            - $ref: '#/components/schemas/Timestamp'
+          nullable: true
+        registrationEnd:
+          allOf:
+            - $ref: '#/components/schemas/Timestamp'
+          nullable: true
+        publishedFrom:
+          allOf:
+            - $ref: '#/components/schemas/Timestamp'
+          nullable: true
+        publishedUntil:
+          allOf:
+            - $ref: '#/components/schemas/Timestamp'
+          nullable: true
+        title:
+          $ref: '#/components/schemas/LocalizedString'
+        priceInfo:
+          allOf:
+            - $ref: '#/components/schemas/LocalizedString'
+          nullable: true
+        venue:
+          allOf:
+            - $ref: '#/components/schemas/Venue'
+          nullable: true
+        labels:
+          type: array
+          items:
+            $ref: '#/components/schemas/Label'
+        additionalFields:
+          type: array
+          items:
+            $ref: '#/components/schemas/AdditionalField'
+        allowFlexibleAttendance:
+          type: boolean
+        attendanceStartUntil:
+          type: string
+          format: date
+          nullable: true
+        attendanceEndFrom:
+          type: string
+          format: date
+          nullable: true
+        minAttendanceLength:
+          type: integer
+          nullable: true
+        maxAttendanceLength:
+          type: integer
+          nullable: true
+        earlyArrivalMode:
+          $ref: '#/components/schemas/EarlyArrivalMode'
+        lateDepartureMode:
+          $ref: '#/components/schemas/LateDepartureMode'
+        attendanceType:
+          type: string
+          enum: ['ONLINE', 'ON_SITE', 'SELECTABLE']
+        facilitators:
+          type: array
+          items:
+            $ref: '#/components/schemas/EventDateFacilitator'
+            
+    EventDateFacilitator:
+      type: object
+      required: [id, name, order]
+      properties:
+        id:
+          $ref: '#/components/schemas/NumericPrimaryKey'
+        name:
+          type: string
+          description: Full name of the profile (including title, if any)
+        additionalInfo:
+          nullable: true
+          allOf:
+            - $ref: '#/components/schemas/LocalizedString'
+        order:
+          nullable: false
+          type: integer
+          
+    ProfilePayload:
+      type: object
+      oneOf:
+        - $ref: '#/components/schemas/PersonProfile'
+        - $ref: '#/components/schemas/OrganizationProfile'
+      discriminator:
+        propertyName: objectType  
+  
+    BookingPayload:
+      type: object
+      allOf:
+        - $ref: 'https://api.swaggerhub.com/apis/SeminarDesk/Private/v1/#/components/schemas/BaseModelProperties'
+        - $ref: 'https://api.swaggerhub.com/apis/SeminarDesk/Private/v1/#/components/schemas/BookingProperties'    
+
+    LabelGroupPayload:
+      type: object
+      required: [id, name, abbreviation, labels]
+      properties:
+        id:
+          $ref: '#/components/schemas/NumericPrimaryKey'
+        name:
+          type: string
+        abbreviation:
+          type: string
+        description:
+          $ref: '#/components/schemas/LocalizedString'
+        pictureUrl:
+          $ref: '#/components/schemas/LocalizedString' 
+        labels:  
+          type: array
+          items:
+            $ref: '#/components/schemas/Label'    
+    
+    EventCreateRequest:
+      allOf:
+        - $ref: '#/components/schemas/AbstractWebhookRequest'
+      type: object
+      properties:
+        notifications:
+          type: array
+          items:
+            $ref: '#/components/schemas/EventCreateNotification'
+
+    EventUpdateRequest:
+      allOf:
+        - $ref: '#/components/schemas/AbstractWebhookRequest'
+      type: object
+      properties:
+        notifications:
+          type: array
+          items:
+            $ref: '#/components/schemas/EventUpdateNotification'
+            
+    EventDeleteRequest:
+      allOf:
+        - $ref: '#/components/schemas/AbstractWebhookRequest'
+      type: object
+      properties:
+        notifications:
+          type: array
+          items:
+            $ref: '#/components/schemas/EventDeleteNotification'
+
+    EventCreateNotification:
+      allOf:
+        - $ref: '#/components/schemas/AbstractNotification'
+      type: object
+      required: [payload]
+      properties:
+        action:
+          type: string
+          enum: ['event.create']
+        payload:
+          $ref: '#/components/schemas/EventPayload'
+
+    EventUpdateNotification:
+      allOf:
+        - $ref: '#/components/schemas/AbstractNotification'
+      type: object
+      required: [payload]
+      properties:
+        action:
+          type: string
+          enum: ['event.update']
+        payload:
+          $ref: '#/components/schemas/EventPayload'
+  
+    EventDeleteNotification:
+      allOf:
+        - $ref: '#/components/schemas/AbstractNotification'
+      type: object
+      required: [payload]
+      properties:
+        action:
+          type: string
+          enum: ['event.delete']
+        payload:
+          $ref: '#/components/schemas/EventPayload' 
+
+    EventDateCreateRequest:
+      allOf:
+        - $ref: '#/components/schemas/AbstractWebhookRequest'
+      type: object
+      properties:
+        notifications:
+          type: array
+          items:
+            $ref: '#/components/schemas/EventDateCreateNotification'
+
+    EventDateUpdateRequest:
+      allOf:
+        - $ref: '#/components/schemas/AbstractWebhookRequest'
+      type: object
+      properties:
+        notifications:
+          type: array
+          items:
+            $ref: '#/components/schemas/EventDateUpdateNotification'
+            
+    EventDateDeleteRequest:
+      allOf:
+        - $ref: '#/components/schemas/AbstractWebhookRequest'
+      type: object
+      properties:
+        notifications:
+          type: array
+          items:
+            $ref: '#/components/schemas/EventDateDeleteNotification'
+
+    EventDateCreateNotification:
+      allOf:
+        - $ref: '#/components/schemas/AbstractNotification'
+      type: object
+      required: [payload]
+      properties:
+        action:
+          type: string
+          enum: ['eventDate.create']
+        payload:
+          $ref: '#/components/schemas/EventDatePayload'
+
+    EventDateUpdateNotification:
+      allOf:
+        - $ref: '#/components/schemas/AbstractNotification'
+      type: object
+      required: [payload]
+      properties:
+        action:
+          type: string
+          enum: ['eventDate.update']
+        payload:
+          $ref: '#/components/schemas/EventDatePayload'
+  
+    EventDateDeleteNotification:
+      allOf:
+        - $ref: '#/components/schemas/AbstractNotification'
+      type: object
+      required: [payload]
+      properties:
+        action:
+          type: string
+          enum: ['eventDate.delete']
+        payload:
+          $ref: '#/components/schemas/EventDatePayload'
+
+    EarlyArrivalMode:
+      type: integer
+      enum: [0, 1, 2, 3]
+      
+    LateDepartureMode:
+      type: integer
+      enum: [0, 1, 2, 3]
+    
+    FacilitatorCreateRequest:
+      allOf:
+        - $ref: '#/components/schemas/AbstractWebhookRequest'
+      type: object
+      properties:
+        notifications:
+          type: array
+          items:
+            $ref: '#/components/schemas/FacilitatorCreateNotification'
+
+    FacilitatorUpdateRequest:
+      allOf:
+        - $ref: '#/components/schemas/AbstractWebhookRequest'
+      type: object
+      properties:
+        notifications:
+          type: array
+          items:
+            $ref: '#/components/schemas/FacilitatorUpdateNotification'
+            
+    FacilitatorDeleteRequest:
+      allOf:
+        - $ref: '#/components/schemas/AbstractWebhookRequest'
+      type: object
+      properties:
+        notifications:
+          type: array
+          items:
+            $ref: '#/components/schemas/FacilitatorDeleteNotification'
+
+    FacilitatorCreateNotification:
+      allOf:
+        - $ref: '#/components/schemas/AbstractNotification'
+      type: object
+      required: [payload]
+      properties:
+        action:
+          type: string
+          enum: ['facilitator.create']
+        payload:
+          $ref: '#/components/schemas/FacilitatorPayload'
+
+    FacilitatorUpdateNotification:
+      allOf:
+        - $ref: '#/components/schemas/AbstractNotification'
+      type: object
+      required: [payload]
+      properties:
+        action:
+          type: string
+          enum: ['facilitator.update']
+        payload:
+          $ref: '#/components/schemas/FacilitatorPayload'
+  
+    FacilitatorDeleteNotification:
+      allOf:
+        - $ref: '#/components/schemas/AbstractNotification'
+      type: object
+      required: [payload]
+      properties:
+        action:
+          type: string
+          enum: ['facilitator.delete']
+        payload:
+          $ref: '#/components/schemas/FacilitatorPayload'  
+
+    ProfileCreateNotification:
+      allOf:
+        - $ref: '#/components/schemas/AbstractNotification'
+      type: object
+      required: [payload]
+      properties:
+        action:
+          type: string
+          enum: ['profile.create']
+        payload:
+          $ref: '#/components/schemas/ProfilePayload'
+
+    PersonProfile:
+      type: object
+      required: [lastName]
+      allOf:
+        - $ref: '#/components/schemas/AbstractProfile'
+      properties:
+        title:
+          type: string
+        firstName:
+          type: string
+          nullable: true
+        lastName:
+          type: string
+        additionalTitle:
+          type: string
+          nullable: true
+        dateOfBirth:
+          type: string
+          format: date
+          nullable: true
+        profession:
+          type: string
+          nullable: true
+        salutationType:
+          type: string
+          enum: [FORMAL, INFORMAL]
+          nullable: true
+        privatePhoneNumber:
+          type: string
+          nullable: true
+        alternativePhoneNumber:
+          type: string
+          nullable: true
+        workPhoneNumber:
+          type: string
+          nullable: true
+        preferredAddress:
+          type: string
+          enum: [PRIVATE, INVOICE, PRIMARY_ORGANIZATION]
+          nullable: true
+        preferredEmail:
+          type: string
+          enum: [PRIVATE, ALTERNATIVE, INVOICE, PRIMARY_ORGANIZATION]
+          nullable: true
+        preferredPhoneNumber:
+          type: string
+          enum: [PRIVATE, ALTERNATIVE, BUSINESS, PRIMARY_ORGANIZATION]
+          nullable: true
+        isSubscribedToNewsletter:
+          type: boolean
+        isFacilitator:
+          type: boolean
+
+    OrganizationProfile:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/AbstractProfile'
+      properties:
+        additionalName:
+          type: string
+          nullable: true
+        # TODO add more properties of organization profile
+
+    AbstractProfile:
+      type: object
+      required: [id, objectType, salutation, name]
+      properties:
+        id:
+          $ref: '#/components/schemas/NumericPrimaryKey'
+        objectType:
+          type: string
+          enum: [PERSON, ORGANIZATION]
+        salutation:
+          type: string
+        name:
+          type: string
+        language:
+          type: string
+          nullable: true
+        labels:
+          type: array
+          nullable: true
+          items:
+            $ref: '#/components/schemas/Label'
+        email:
+          type: string
+          format: email
+          nullable: true
+        alternativeEmail:
+          type: string
+          format: email
+          nullable: true
+        website:
+          type: string
+          nullable: true
+        faxNumber:
+          type: string
+          nullable: true
+        primaryAddress:
+          $ref: '#/components/schemas/Address'
+        billingAddressActive:
+          type: boolean
+        billingAddress:
+          allOf:
+            - $ref: '#/components/schemas/Address'
+            - type: object
+              required: [name]
+              properties:
+                name:
+                  type: string
+                email:
+                  type: string
+                  format: email
+        remarks:
+          type: string
+          nullable: true
+        information:
+          type: string
+          nullable: true
+        isBlocked:
+          type: boolean
+        blockedReason:
+          type: string
+          nullable: true
+        bankAccountData:
+          type: object
+          nullable: true
+          properties:
+            bankName:
+              type: string
+              nullable: true
+            iban:
+              type: string
+              example: DE91100000000123456789
+              nullable: true
+            bic:
+              type: string
+              example: AABSDE31
+              nullable: true
+            accountHolder:
+              type: string
+              nullable: true
+        taxNumber:
+          type: string
+          nullable: true
+        vatId:
+          type: string
+          nullable: true
+        customerNumber:
+          type: string
+          nullable: true
+        additionalFields:
+          description: Map of all additional fields with values for this profile
+          type: object
+        # TODO add data protection values and linked organizations
+          
+    Address:
+      type: object
+      properties:
+        careOf:
+          type: string
+          nullable: true
+        streetAddress:
+          type: string
+          nullable: true
+        streetAddress2:
+          type: string
+          nullable: true
+        zipCode:
+          type: string
+          nullable: true
+        city:
+          type: string
+          nullable: true
+        province:
+          type: string
+          nullable: true
+        country:
+          type: object
+          nullable: true
+          properties:
+            code: 
+              description: ISO country code
+              type: string
+            name:
+              description: Country name 
+              type: string
+              example: 'Germany'
+            localizedName:
+              description: Localized country name, depending on the 
+              type: string
+              example: 'Allemagne'
+  
+    FacilitatorPayload:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/PersonProfile'
+      properties:
+        about:
+          $ref: '#/components/schemas/LocalizedString'
+        pictureUrl:
+          nullable: true
+          type: string
+          format: uri
+    
+    LabelGroupCreateRequest:
+      allOf:
+        - $ref: '#/components/schemas/AbstractWebhookRequest'
+      type: object
+      properties:
+        notifications:
+          type: array
+          items:
+            $ref: '#/components/schemas/LabelGroupCreateNotification'
+
+    LabelGroupUpdateRequest:
+      allOf:
+        - $ref: '#/components/schemas/AbstractWebhookRequest'
+      type: object
+      properties:
+        notifications:
+          type: array
+          items:
+            $ref: '#/components/schemas/LabelGroupUpdateNotification'
+            
+    LabelGroupDeleteRequest:
+      allOf:
+        - $ref: '#/components/schemas/AbstractWebhookRequest'
+      type: object
+      properties:
+        notifications:
+          type: array
+          items:
+            $ref: '#/components/schemas/LabelGroupDeleteNotification'
+
+    BookingCreateRequest:
+      allOf:
+        - $ref: '#/components/schemas/AbstractWebhookRequest'
+      type: object
+      properties:
+        notifications:
+          type: array
+          items:
+            $ref: '#/components/schemas/BookingCreateNotification'
+    
+    BookingStatusChangeRequest:
+      allOf:
+        - $ref: '#/components/schemas/AbstractWebhookRequest'
+      type: object
+      properties:
+        notifications:
+          type: array
+          items:
+            $ref: '#/components/schemas/BookingStatusChangeNotification'
+    
+    BookingDeleteRequest:
+      allOf:
+        - $ref: '#/components/schemas/AbstractWebhookRequest'
+      type: object
+      properties:
+        notifications:
+          type: array
+          items:
+            $ref: '#/components/schemas/BookingDeleteNotification'
+
+    LabelGroupCreateNotification:
+      allOf:
+        - $ref: '#/components/schemas/AbstractNotification'
+      type: object
+      required: [payload]
+      properties:
+        action:
+          type: string
+          enum: ['labelGroup.create']
+        payload:
+          $ref: '#/components/schemas/LabelGroupPayload'
+
+    LabelGroupUpdateNotification:
+      allOf:
+        - $ref: '#/components/schemas/AbstractNotification'
+      type: object
+      required: [payload]
+      properties:
+        action:
+          type: string
+          enum: ['labelGroup.update']
+        payload:
+          $ref: '#/components/schemas/LabelGroupPayload'
+  
+    LabelGroupDeleteNotification:
+      allOf:
+        - $ref: '#/components/schemas/AbstractNotification'
+      type: object
+      required: [payload]
+      properties:
+        action:
+          type: string
+          enum: ['labelGroup.delete']
+        payload:
+          $ref: '#/components/schemas/LabelGroupPayload'  
+    
+    BookingCreateNotification:
+      allOf:
+        - $ref: '#/components/schemas/AbstractNotification'
+      type: object
+      required: [payload]
+      properties:
+        action:
+          type: string
+          enum: ['booking.create']
+        payload:
+          $ref: '#/components/schemas/BookingPayload'
+    
+    BookingStatusChangeNotification:
+      allOf:
+        - $ref: '#/components/schemas/AbstractNotification'
+      type: object
+      required: [payload]
+      properties:
+        action:
+          type: string
+          enum: ['booking.statuschanged']
+        payload:
+          $ref: '#/components/schemas/BookingPayload'
+    
+    BookingDeleteNotification:
+      allOf:
+        - $ref: '#/components/schemas/AbstractNotification'
+      type: object
+      required: [payload]
+      properties:
+        action:
+          type: string
+          enum: ['booking.delete']
+        payload:
+          $ref: '#/components/schemas/BookingPayload'
+          
+    InvoicePayload:
+      type: object
+      allOf:
+        - $ref: 'https://api.swaggerhub.com/apis/SeminarDesk/Private/v1/#/components/schemas/BaseModelProperties'
+        - $ref: 'https://api.swaggerhub.com/apis/SeminarDesk/Private/v1/#/components/schemas/InvoiceProperties'    
+          
+    InvoicePostedRequest:
+      allOf:
+        - $ref: '#/components/schemas/AbstractNotification'
+      type: object
+      required: [payload]
+      properties:
+        action:
+          type: string
+          enum: ['invoice.posted']
+        payload:
+          $ref: '#/components/schemas/InvoicePayload'
+          
+    InvoiceCanceledRequest:
+      allOf:
+        - $ref: '#/components/schemas/AbstractNotification'
+      type: object
+      required: [payload]
+      properties:
+        action:
+          type: string
+          enum: ['invoice.canceled']
+        payload:
+          $ref: '#/components/schemas/InvoicePayload'
+    
+    LocalizedString:
+      type: array
+      items:
+        type: object
+        required: [language]
+        properties:
+          language:
+            type: string
+          value:
+            type: string
+      example:
+        - language: 'DE'
+          value: 'Beispiel-Text'
+        - language: 'EN'
+          value: 'Example text'
+    
+    ContactPerson:
+      type: object
+      required: [firstName, lastName, phone, email]
+      properties:
+        firstName:
+          type: string
+        lastName:
+          type: string
+        phone:
+          type: string
+        email:
+          type: string
+    
+    EventId:
+      type: string
+      description: UUID minus the `-`
+      example: '37eb4c5704f8461b83dcf0723ab983e8'
+      
+    Timestamp:
+      type: integer
+      description: Epoch timestamp in milliseconds
+      example: 1602144000000      
+      
+    Label:
+      type: object
+      required: [id, abbreviation, name, description, pictureUrl, labelGroup]
+      properties:
+        id:
+          $ref: '#/components/schemas/NumericPrimaryKey'
+        abbreviation: 
+          type: string
+        name:
+          type: string
+        description:
+          allOf:
+            - $ref: '#/components/schemas/LocalizedString'
+          nullable: true
+        pictureUrl:
+          allOf:
+            - $ref: '#/components/schemas/LocalizedString'
+          nullable: true
+        labelGroup:
+          type: object
+          properties:
+            id:
+              $ref: '#/components/schemas/NumericPrimaryKey'
+            name:
+              type: string
+   
+    AdditionalField:
+      type: object
+      required: [id, name, value, description, isUsed, order]
+      properties:
+        id:
+          $ref: '#/components/schemas/NumericPrimaryKey'
+        name: 
+          type: string
+        value:
+          type: string
+        description:
+          type: string
+        isUsed:
+          type: boolean
+        order:
+          type: integer
+   
+    Venue:
+      type: object
+      required: [id, name]
+      properties:
+        id:
+          $ref: '#/components/schemas/NumericPrimaryKey'
+        name:
+          type: string
+        street1:
+          type: string
+        street2: 
+          type: string
+        zip: 
+          type: string
+        city: 
+          type: string
+        country: 
+          type: string
+        weblink: 
+          type: string
+        phone:
+          type: string
+        email:
+          type: string
+          format: email
+        directionMapUrl:
+          type: string
+          format: uri
+        remarks:
+          type: string
+    
+    AbstractNotification:
+      type: object
+      required: [action]
+      properties:
+        action:
+          type: string
+          enum: ['event.create', 'event.update', 'event.delete', 'eventDate.create', 'eventDate.update', 'eventDate.delete', 'facilitator.create', 'facilitator.update', 'facilitator.delete', 'labelGroup.create', 'labelGroup.update', 'labelGroup.delete', 'profile.create', 'profile.update', 'profile.delete', 'profile.merge']
+            
+    AbstractWebhookRequest:
+      type: object
+      required: [id, attempt, properties, notifications]
+      properties:
+        id:
+          type: string
+          example: '9c74c8d4896d4e45906d956902a99f75'
+        attempt:
+          type: integer
+          example: 1
+        properties:
+          type: object
+          properties:
+            timestamp:
+              $ref: '#/components/schemas/Timestamp'
+              
+    NumericPrimaryKey:
+      type: integer
+      format: int64
+      example: 42
