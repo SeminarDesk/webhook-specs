@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
-  version: v1
-  title: SeminarDesk Webhooks
+  version: v1-next
+  title: 'SeminarDesk Webhooks (unpublished upcoming version)'
   contact:
     name: SeminarDesk support
     url: https://www.seminardesk.de
@@ -235,10 +235,24 @@ components:
           $ref: '#/components/schemas/LocalizedString'
         description:
           $ref: '#/components/schemas/LocalizedString'
-        headerPictureUrl:
-          $ref: '#/components/schemas/LocalizedString'
         teaserPictureUrl:
-          $ref: '#/components/schemas/LocalizedString'
+          deprecated: true
+          description: This field is deprecated, please refer to `teaserPicture` instead
+          allOf:
+            - $ref: "#/components/schemas/LocalizedString"
+        teaserPicture:
+          nullable: true
+          allOf:
+            - $ref: '#/components/schemas/ImageIncludingMetaData'
+        headerPictureUrl:
+          deprecated: true
+          description: This field is deprecated, please refer to `headerPicture` instead
+          allOf:
+            - $ref: "#/components/schemas/LocalizedString"
+        headerPicture:
+          nullable: true
+          allOf:
+            - $ref: '#/components/schemas/ImageIncludingMetaData'    
         bookingPageUrl:
           description: The URL of the booking page for this event
           allOf:
@@ -280,6 +294,25 @@ components:
         datesAreCoherent:
           description: Determines whether this event is marked as "multi-part"
           type: boolean
+        availability:
+          description: Determines until when the dates of this event should be available for booking
+          type: string
+          enum: ['UNTIL_BEFORE_FIRST_DATE', 'UNTIL_AFTER_FIRST_DATE', 'UNTIL_BEFORE_LAST_DATE', 'UNTIL_AFTER_LAST_DATE']
+        childrenAllowed:
+          type: boolean
+        showAttendanceFees:
+          type: boolean
+        onlyBoardAndLodging:
+          type: boolean
+        showFacilitators:
+          type: boolean
+        showNewsletterCheckbox:
+          type: boolean
+        allowVoucher:
+          type: boolean
+        requireOnlinePayment:
+          type: boolean
+          default: false            
   
     EventDatePayload:
       type: object
@@ -373,6 +406,12 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/EventDateFacilitator'
+        number:
+          type: string
+        additionalInfo:
+          nullable: true
+          allOf:
+            - $ref: '#/components/schemas/LocalizedString'  
             
     EventDateFacilitator:
       type: object
@@ -390,6 +429,32 @@ components:
         order:
           nullable: false
           type: integer
+        
+    ImageIncludingMetaData:
+      type: object
+      required: [url, width, height, fileSize]
+      properties:
+        url:
+          $ref: "#/components/schemas/LocalizedString"
+        alternativeText:
+          $ref: "#/components/schemas/LocalizedString"
+        title:
+          $ref: "#/components/schemas/LocalizedString"
+        caption:
+          $ref: "#/components/schemas/LocalizedString"
+        width:
+          nullable: false
+          description: Width of the image in pixels
+          type: integer
+        height:
+          nullable: false
+          description: Height of the image in pixels
+          type: integer
+        fileSize:
+          nullable: false
+          description: File size in bytes
+          type: integer
+          format: int64
           
     ProfilePayload:
       type: object
@@ -402,8 +467,8 @@ components:
     BookingPayload:
       type: object
       allOf:
-        - $ref: 'https://api.swaggerhub.com/apis/SeminarDesk/Private/v1/#/components/schemas/BaseModelProperties'
-        - $ref: 'https://api.swaggerhub.com/apis/SeminarDesk/Private/v1/#/components/schemas/BookingProperties'    
+        - $ref: 'https://api.swaggerhub.com/apis/SeminarDesk/Private/v1-next/#/components/schemas/BaseModelProperties'
+        - $ref: 'https://api.swaggerhub.com/apis/SeminarDesk/Private/v1-next/#/components/schemas/BookingProperties'    
 
     LabelGroupPayload:
       type: object
@@ -982,8 +1047,8 @@ components:
     InvoicePayload:
       type: object
       allOf:
-        - $ref: 'https://api.swaggerhub.com/apis/SeminarDesk/Private/v1/#/components/schemas/BaseModelProperties'
-        - $ref: 'https://api.swaggerhub.com/apis/SeminarDesk/Private/v1/#/components/schemas/InvoiceProperties'    
+        - $ref: 'https://api.swaggerhub.com/apis/SeminarDesk/Private/v1-next/#/components/schemas/BaseModelProperties'
+        - $ref: 'https://api.swaggerhub.com/apis/SeminarDesk/Private/v1-next/#/components/schemas/InvoiceProperties'    
           
     InvoicePostedRequest:
       allOf:
