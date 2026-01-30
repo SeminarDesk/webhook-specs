@@ -402,8 +402,8 @@ components:
     BookingPayload:
       type: object
       allOf:
-        - $ref: 'https://api.swaggerhub.com/apis/SeminarDesk/Private/v1/#/components/schemas/BaseModelProperties'
-        - $ref: 'https://api.swaggerhub.com/apis/SeminarDesk/Private/v1/#/components/schemas/BookingProperties'    
+        - $ref: 'https://raw.githubusercontent.com/SeminarDesk/private-api-specs/main/private-api.json#/components/schemas/BaseModelProperties'
+        - $ref: 'https://raw.githubusercontent.com/SeminarDesk/private-api-specs/main/private-api.json#/components/schemas/BookingProperties'    
 
     LabelGroupPayload:
       type: object
@@ -982,8 +982,8 @@ components:
     InvoicePayload:
       type: object
       allOf:
-        - $ref: 'https://api.swaggerhub.com/apis/SeminarDesk/Private/v1/#/components/schemas/BaseModelProperties'
-        - $ref: 'https://api.swaggerhub.com/apis/SeminarDesk/Private/v1/#/components/schemas/InvoiceProperties'    
+        - $ref: 'https://raw.githubusercontent.com/SeminarDesk/private-api-specs/main/private-api.json#/components/schemas/BaseModelProperties'
+        - $ref: 'https://raw.githubusercontent.com/SeminarDesk/private-api-specs/main/private-api.json#/components/schemas/InvoiceProperties'    
           
     InvoicePostedRequest:
       allOf:
