@@ -170,7 +170,7 @@ components:
           responses:
             200:
               description: OK
-    'booking.statuschanged':
+    'booking.changestatus':
       'ExampleCallbackUrl':
         description: Will be called when a booking's status is changed.
         post:
@@ -963,7 +963,7 @@ components:
       properties:
         action:
           type: string
-          enum: ['booking.statuschanged']
+          enum: ['booking.changestatus']
         payload:
           $ref: '#/components/schemas/BookingPayload'
     
