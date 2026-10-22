@@ -1034,20 +1034,10 @@ components:
           $ref: '#/components/schemas/LocalizedString'
         description:
           $ref: '#/components/schemas/LocalizedString'
-        teaserPictureUrl:
-          deprecated: true
-          description: This field is deprecated, please refer to `teaserPicture` instead
-          allOf:
-            - $ref: '#/components/schemas/LocalizedString'
-        teaserPicture:
-          $ref: '#/components/schemas/ImageIncludingMetaData'
         headerPictureUrl:
-          deprecated: true
-          description: This field is deprecated, please refer to `headerPicture` instead
-          allOf:
-            - $ref: '#/components/schemas/LocalizedString'
-        headerPicture:
-          $ref: '#/components/schemas/ImageIncludingMetaData'
+          $ref: '#/components/schemas/LocalizedString'
+        teaserPictureUrl:
+          $ref: '#/components/schemas/LocalizedString'
         bookingPageUrl:
           description: The URL of the booking page for this event. Empty when the event has no detail page.
           allOf:
@@ -1774,33 +1764,6 @@ components:
         remarks:
           type: string
           nullable: true
-
-    ImageIncludingMetaData:
-      type: object
-      nullable: true
-      required: [url, width, height, fileSize]
-      properties:
-        url:
-          $ref: '#/components/schemas/LocalizedString'
-        alternativeText:
-          $ref: '#/components/schemas/LocalizedString'
-        title:
-          $ref: '#/components/schemas/LocalizedString'
-        caption:
-          $ref: '#/components/schemas/LocalizedString'
-        width:
-          nullable: false
-          description: Width of the image in pixels
-          type: integer
-        height:
-          nullable: false
-          description: Height of the image in pixels
-          type: integer
-        fileSize:
-          nullable: false
-          description: File size in bytes
-          type: integer
-          format: int64
     AbstractNotification:
       type: object
       required: [action]
