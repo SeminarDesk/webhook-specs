@@ -12,7 +12,7 @@ components:
   callbacks:
     'event.create':
       'ExampleCallbackUrl':
-        description: Will be called when a new event is created and published.
+        description: 'Will be called when an event is published.'
         post:
           requestBody:
             content:
@@ -24,7 +24,7 @@ components:
               description: OK
     'event.update':
       'ExampleCallbackUrl':
-        description: Will be called when an event is updated.
+        description: 'Will be called when a published event is updated.'
         post:
           requestBody:
             content:
@@ -33,10 +33,10 @@ components:
                   $ref: '#/components/schemas/EventUpdateRequest'
           responses:
             200:
-              description: OK        
+              description: OK
     'event.delete':
       'ExampleCallbackUrl':
-        description: Will be called when an event is deleted/unpublished.
+        description: 'Will be called when a published event is deleted or unpublished.'
         post:
           requestBody:
             content:
@@ -45,11 +45,10 @@ components:
                   $ref: '#/components/schemas/EventDeleteRequest'
           responses:
             200:
-              description: OK                  
-    
+              description: OK
     'eventDate.create':
       'ExampleCallbackUrl':
-        description: Will be called when a new event date is created and published.
+        description: 'Will be called when a new event date is created and published, and for every published date of an event that gets published.'
         post:
           requestBody:
             content:
@@ -61,7 +60,7 @@ components:
               description: OK
     'eventDate.update':
       'ExampleCallbackUrl':
-        description: Will be called when an event date is updated.
+        description: 'Will be called when a published event date is updated.'
         post:
           requestBody:
             content:
@@ -70,10 +69,10 @@ components:
                   $ref: '#/components/schemas/EventDateUpdateRequest'
           responses:
             200:
-              description: OK        
+              description: OK
     'eventDate.delete':
       'ExampleCallbackUrl':
-        description: Will be called when an event date is deleted/unpublished.
+        description: 'Will be called when a published event date is deleted or unpublished, and for every published date of an event that gets unpublished.'
         post:
           requestBody:
             content:
@@ -83,10 +82,9 @@ components:
           responses:
             200:
               description: OK
-    
     'facilitator.create':
       'ExampleCallbackUrl':
-        description: Will be called when a new facilitator is created.
+        description: 'Will be called when a profile becomes an active facilitator.'
         post:
           requestBody:
             content:
@@ -98,7 +96,7 @@ components:
               description: OK
     'facilitator.update':
       'ExampleCallbackUrl':
-        description: Will be called when facilitator is updated.
+        description: 'Will be called when an active facilitator is updated.'
         post:
           requestBody:
             content:
@@ -107,10 +105,10 @@ components:
                   $ref: '#/components/schemas/FacilitatorUpdateRequest'
           responses:
             200:
-              description: OK        
+              description: OK
     'facilitator.delete':
       'ExampleCallbackUrl':
-        description: Will be called when a facilitator is deleted.
+        description: 'Will be called when a facilitator is deactivated, deleted or merged into another profile.'
         post:
           requestBody:
             content:
@@ -119,11 +117,10 @@ components:
                   $ref: '#/components/schemas/FacilitatorDeleteRequest'
           responses:
             200:
-              description: OK                  
-    
+              description: OK
     'labelGroup.create':
       'ExampleCallbackUrl':
-        description: Will be called when a new label group is created and published.
+        description: 'Will be called when a label group is created or becomes public and usable for events.'
         post:
           requestBody:
             content:
@@ -135,7 +132,7 @@ components:
               description: OK
     'labelGroup.update':
       'ExampleCallbackUrl':
-        description: Will be called when a label group is updated.
+        description: 'Will be called when a public event label group or one of its labels is updated, or a label is deleted.'
         post:
           requestBody:
             content:
@@ -144,10 +141,10 @@ components:
                   $ref: '#/components/schemas/LabelGroupUpdateRequest'
           responses:
             200:
-              description: OK        
+              description: OK
     'labelGroup.delete':
       'ExampleCallbackUrl':
-        description: Will be called when a label group is deleted/unpublished.
+        description: 'Will be called when a public event label group is deleted, or is no longer public or usable for events.'
         post:
           requestBody:
             content:
@@ -157,10 +154,57 @@ components:
           responses:
             200:
               description: OK
-              
+    'profile.create':
+      'ExampleCallbackUrl':
+        description: 'Will be called when a new profile is created that is not a facilitator. A new facilitator fires `facilitator.create` instead.'
+        post:
+          requestBody:
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ProfileCreateRequest'
+          responses:
+            200:
+              description: OK
+    'profile.update':
+      'ExampleCallbackUrl':
+        description: 'Will be called when a profile that is not a facilitator is updated.'
+        post:
+          requestBody:
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ProfileUpdateRequest'
+          responses:
+            200:
+              description: OK
+    'profile.delete':
+      'ExampleCallbackUrl':
+        description: 'Will be called when a profile is deleted. The full payload shows the profile as it was before the deletion.'
+        post:
+          requestBody:
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ProfileDeleteRequest'
+          responses:
+            200:
+              description: OK
+    'profile.merge':
+      'ExampleCallbackUrl':
+        description: 'Will be called when two profiles are merged. The full payload contains both profiles: the kept one with `mergeStatus` `MERGED` and the removed one with `mergeStatus` `DELETED`. The id-only payload carries the id of the kept profile. The kept profile already shows the merged data.'
+        post:
+          requestBody:
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ProfileMergeRequest'
+          responses:
+            200:
+              description: OK
     'booking.create':
       'ExampleCallbackUrl':
-        description: Will be called when a new booking is created.
+        description: 'Will be called when a new booking is created.'
         post:
           requestBody:
             content:
@@ -170,9 +214,21 @@ components:
           responses:
             200:
               description: OK
+    'booking.update':
+      'ExampleCallbackUrl':
+        description: 'Will be called when a booking is updated.'
+        post:
+          requestBody:
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/BookingUpdateRequest'
+          responses:
+            200:
+              description: OK
     'booking.changestatus':
       'ExampleCallbackUrl':
-        description: Will be called when a booking's status is changed.
+        description: 'Will be called when a booking''s status is changed.'
         post:
           requestBody:
             content:
@@ -181,10 +237,10 @@ components:
                   $ref: '#/components/schemas/BookingStatusChangeRequest'
           responses:
             200:
-              description: OK        
+              description: OK
     'booking.delete':
       'ExampleCallbackUrl':
-        description: Will be called when a booking is deleted.
+        description: 'Will be called when a booking is deleted.'
         post:
           requestBody:
             content:
@@ -193,42 +249,785 @@ components:
                   $ref: '#/components/schemas/BookingDeleteRequest'
           responses:
             200:
-              description: OK                   
-
+              description: OK
     'invoice.post':
       'ExampleCallbackUrl':
-        description: Will be called when an invoice was posted.
+        description: 'Will be called when an invoice is posted. Draft invoices fire no event.'
         post:
           requestBody:
             content:
               application/json:
                 schema:
-                  $ref: '#/components/schemas/InvoicePostedRequest'
+                  $ref: '#/components/schemas/InvoicePostRequest'
           responses:
             200:
               description: OK
     'invoice.cancel':
       'ExampleCallbackUrl':
-        description: Will be called when an invoice was canceled.
+        description: 'Will be called when an invoice is canceled. The payload is the canceled invoice, not the cancelation invoice.'
         post:
           requestBody:
             content:
               application/json:
                 schema:
-                  $ref: '#/components/schemas/InvoiceCanceledRequest'
+                  $ref: '#/components/schemas/InvoiceCancelRequest'
+          responses:
+            200:
+              description: OK
+    'payment.create':
+      'ExampleCallbackUrl':
+        description: 'Will be called when a payment is added to a booking. The id-only payload carries the id of the payment, not of the booking.'
+        post:
+          requestBody:
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/PaymentCreateRequest'
+          responses:
+            200:
+              description: OK
+    'payment.delete':
+      'ExampleCallbackUrl':
+        description: 'Will be called when a payment is removed from a booking. The id-only payload carries the id of the payment, not of the booking.'
+        post:
+          requestBody:
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/PaymentDeleteRequest'
+          responses:
+            200:
+              description: OK
+    'certificate.create':
+      'ExampleCallbackUrl':
+        description: 'Will be called when a certificate is created as a draft.'
+        post:
+          requestBody:
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/CertificateCreateRequest'
+          responses:
+            200:
+              description: OK
+    'certificate.update':
+      'ExampleCallbackUrl':
+        description: 'Will be called when a finalized certificate is updated.'
+        post:
+          requestBody:
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/CertificateUpdateRequest'
+          responses:
+            200:
+              description: OK
+    'certificate.finalize':
+      'ExampleCallbackUrl':
+        description: 'Will be called when a certificate is finalized, or created without being a draft.'
+        post:
+          requestBody:
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/CertificateFinalizeRequest'
+          responses:
+            200:
+              description: OK
+    'certificate.void':
+      'ExampleCallbackUrl':
+        description: 'Will be called when a certificate is voided.'
+        post:
+          requestBody:
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/CertificateVoidRequest'
           responses:
             200:
               description: OK
 
   schemas:
+    EventCreateRequest:
+      allOf:
+        - $ref: '#/components/schemas/AbstractWebhookRequest'
+      type: object
+      properties:
+        notifications:
+          type: array
+          items:
+            $ref: '#/components/schemas/EventCreateNotification'
+
+    EventCreateNotification:
+      allOf:
+        - $ref: '#/components/schemas/AbstractNotification'
+      type: object
+      required: [payload]
+      properties:
+        action:
+          type: string
+          enum: ['event.create']
+        payload:
+          oneOf:
+            - $ref: '#/components/schemas/EventPayload'
+            - $ref: '#/components/schemas/EventIdPayload'
+
+    EventUpdateRequest:
+      allOf:
+        - $ref: '#/components/schemas/AbstractWebhookRequest'
+      type: object
+      properties:
+        notifications:
+          type: array
+          items:
+            $ref: '#/components/schemas/EventUpdateNotification'
+
+    EventUpdateNotification:
+      allOf:
+        - $ref: '#/components/schemas/AbstractNotification'
+      type: object
+      required: [payload]
+      properties:
+        action:
+          type: string
+          enum: ['event.update']
+        payload:
+          oneOf:
+            - $ref: '#/components/schemas/EventPayload'
+            - $ref: '#/components/schemas/EventIdPayload'
+
+    EventDeleteRequest:
+      allOf:
+        - $ref: '#/components/schemas/AbstractWebhookRequest'
+      type: object
+      properties:
+        notifications:
+          type: array
+          items:
+            $ref: '#/components/schemas/EventDeleteNotification'
+
+    EventDeleteNotification:
+      allOf:
+        - $ref: '#/components/schemas/AbstractNotification'
+      type: object
+      required: [payload]
+      properties:
+        action:
+          type: string
+          enum: ['event.delete']
+        payload:
+          oneOf:
+            - $ref: '#/components/schemas/EventPayload'
+            - $ref: '#/components/schemas/EventIdPayload'
+
+    EventDateCreateRequest:
+      allOf:
+        - $ref: '#/components/schemas/AbstractWebhookRequest'
+      type: object
+      properties:
+        notifications:
+          type: array
+          items:
+            $ref: '#/components/schemas/EventDateCreateNotification'
+
+    EventDateCreateNotification:
+      allOf:
+        - $ref: '#/components/schemas/AbstractNotification'
+      type: object
+      required: [payload]
+      properties:
+        action:
+          type: string
+          enum: ['eventDate.create']
+        payload:
+          oneOf:
+            - $ref: '#/components/schemas/EventDatePayload'
+            - $ref: '#/components/schemas/NumericIdPayload'
+
+    EventDateUpdateRequest:
+      allOf:
+        - $ref: '#/components/schemas/AbstractWebhookRequest'
+      type: object
+      properties:
+        notifications:
+          type: array
+          items:
+            $ref: '#/components/schemas/EventDateUpdateNotification'
+
+    EventDateUpdateNotification:
+      allOf:
+        - $ref: '#/components/schemas/AbstractNotification'
+      type: object
+      required: [payload]
+      properties:
+        action:
+          type: string
+          enum: ['eventDate.update']
+        payload:
+          oneOf:
+            - $ref: '#/components/schemas/EventDatePayload'
+            - $ref: '#/components/schemas/NumericIdPayload'
+
+    EventDateDeleteRequest:
+      allOf:
+        - $ref: '#/components/schemas/AbstractWebhookRequest'
+      type: object
+      properties:
+        notifications:
+          type: array
+          items:
+            $ref: '#/components/schemas/EventDateDeleteNotification'
+
+    EventDateDeleteNotification:
+      allOf:
+        - $ref: '#/components/schemas/AbstractNotification'
+      type: object
+      required: [payload]
+      properties:
+        action:
+          type: string
+          enum: ['eventDate.delete']
+        payload:
+          oneOf:
+            - $ref: '#/components/schemas/EventDatePayload'
+            - $ref: '#/components/schemas/NumericIdPayload'
+
+    FacilitatorCreateRequest:
+      allOf:
+        - $ref: '#/components/schemas/AbstractWebhookRequest'
+      type: object
+      properties:
+        notifications:
+          type: array
+          items:
+            $ref: '#/components/schemas/FacilitatorCreateNotification'
+
+    FacilitatorCreateNotification:
+      allOf:
+        - $ref: '#/components/schemas/AbstractNotification'
+      type: object
+      required: [payload]
+      properties:
+        action:
+          type: string
+          enum: ['facilitator.create']
+        payload:
+          oneOf:
+            - $ref: '#/components/schemas/FacilitatorPayload'
+            - $ref: '#/components/schemas/NumericIdPayload'
+
+    FacilitatorUpdateRequest:
+      allOf:
+        - $ref: '#/components/schemas/AbstractWebhookRequest'
+      type: object
+      properties:
+        notifications:
+          type: array
+          items:
+            $ref: '#/components/schemas/FacilitatorUpdateNotification'
+
+    FacilitatorUpdateNotification:
+      allOf:
+        - $ref: '#/components/schemas/AbstractNotification'
+      type: object
+      required: [payload]
+      properties:
+        action:
+          type: string
+          enum: ['facilitator.update']
+        payload:
+          oneOf:
+            - $ref: '#/components/schemas/FacilitatorPayload'
+            - $ref: '#/components/schemas/NumericIdPayload'
+
+    FacilitatorDeleteRequest:
+      allOf:
+        - $ref: '#/components/schemas/AbstractWebhookRequest'
+      type: object
+      properties:
+        notifications:
+          type: array
+          items:
+            $ref: '#/components/schemas/FacilitatorDeleteNotification'
+
+    FacilitatorDeleteNotification:
+      allOf:
+        - $ref: '#/components/schemas/AbstractNotification'
+      type: object
+      required: [payload]
+      properties:
+        action:
+          type: string
+          enum: ['facilitator.delete']
+        payload:
+          oneOf:
+            - $ref: '#/components/schemas/FacilitatorPayload'
+            - $ref: '#/components/schemas/NumericIdPayload'
+
+    LabelGroupCreateRequest:
+      allOf:
+        - $ref: '#/components/schemas/AbstractWebhookRequest'
+      type: object
+      properties:
+        notifications:
+          type: array
+          items:
+            $ref: '#/components/schemas/LabelGroupCreateNotification'
+
+    LabelGroupCreateNotification:
+      allOf:
+        - $ref: '#/components/schemas/AbstractNotification'
+      type: object
+      required: [payload]
+      properties:
+        action:
+          type: string
+          enum: ['labelGroup.create']
+        payload:
+          oneOf:
+            - $ref: '#/components/schemas/LabelGroupPayload'
+            - $ref: '#/components/schemas/NumericIdPayload'
+
+    LabelGroupUpdateRequest:
+      allOf:
+        - $ref: '#/components/schemas/AbstractWebhookRequest'
+      type: object
+      properties:
+        notifications:
+          type: array
+          items:
+            $ref: '#/components/schemas/LabelGroupUpdateNotification'
+
+    LabelGroupUpdateNotification:
+      allOf:
+        - $ref: '#/components/schemas/AbstractNotification'
+      type: object
+      required: [payload]
+      properties:
+        action:
+          type: string
+          enum: ['labelGroup.update']
+        payload:
+          oneOf:
+            - $ref: '#/components/schemas/LabelGroupPayload'
+            - $ref: '#/components/schemas/NumericIdPayload'
+
+    LabelGroupDeleteRequest:
+      allOf:
+        - $ref: '#/components/schemas/AbstractWebhookRequest'
+      type: object
+      properties:
+        notifications:
+          type: array
+          items:
+            $ref: '#/components/schemas/LabelGroupDeleteNotification'
+
+    LabelGroupDeleteNotification:
+      allOf:
+        - $ref: '#/components/schemas/AbstractNotification'
+      type: object
+      required: [payload]
+      properties:
+        action:
+          type: string
+          enum: ['labelGroup.delete']
+        payload:
+          oneOf:
+            - $ref: '#/components/schemas/LabelGroupPayload'
+            - $ref: '#/components/schemas/NumericIdPayload'
+
+    ProfileCreateRequest:
+      allOf:
+        - $ref: '#/components/schemas/AbstractWebhookRequest'
+      type: object
+      properties:
+        notifications:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProfileCreateNotification'
+
+    ProfileCreateNotification:
+      allOf:
+        - $ref: '#/components/schemas/AbstractNotification'
+      type: object
+      required: [payload]
+      properties:
+        action:
+          type: string
+          enum: ['profile.create']
+        payload:
+          oneOf:
+            - $ref: '#/components/schemas/ProfilePayload'
+            - $ref: '#/components/schemas/NumericIdPayload'
+
+    ProfileUpdateRequest:
+      allOf:
+        - $ref: '#/components/schemas/AbstractWebhookRequest'
+      type: object
+      properties:
+        notifications:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProfileUpdateNotification'
+
+    ProfileUpdateNotification:
+      allOf:
+        - $ref: '#/components/schemas/AbstractNotification'
+      type: object
+      required: [payload]
+      properties:
+        action:
+          type: string
+          enum: ['profile.update']
+        payload:
+          oneOf:
+            - $ref: '#/components/schemas/ProfilePayload'
+            - $ref: '#/components/schemas/NumericIdPayload'
+
+    ProfileDeleteRequest:
+      allOf:
+        - $ref: '#/components/schemas/AbstractWebhookRequest'
+      type: object
+      properties:
+        notifications:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProfileDeleteNotification'
+
+    ProfileDeleteNotification:
+      allOf:
+        - $ref: '#/components/schemas/AbstractNotification'
+      type: object
+      required: [payload]
+      properties:
+        action:
+          type: string
+          enum: ['profile.delete']
+        payload:
+          oneOf:
+            - $ref: '#/components/schemas/ProfilePayload'
+            - $ref: '#/components/schemas/NumericIdPayload'
+
+    ProfileMergeRequest:
+      allOf:
+        - $ref: '#/components/schemas/AbstractWebhookRequest'
+      type: object
+      properties:
+        notifications:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProfileMergeNotification'
+
+    ProfileMergeNotification:
+      allOf:
+        - $ref: '#/components/schemas/AbstractNotification'
+      type: object
+      required: [payload]
+      properties:
+        action:
+          type: string
+          enum: ['profile.merge']
+        payload:
+          oneOf:
+            - $ref: '#/components/schemas/ProfileMergePayload'
+            - $ref: '#/components/schemas/NumericIdPayload'
+
+    BookingCreateRequest:
+      allOf:
+        - $ref: '#/components/schemas/AbstractWebhookRequest'
+      type: object
+      properties:
+        notifications:
+          type: array
+          items:
+            $ref: '#/components/schemas/BookingCreateNotification'
+
+    BookingCreateNotification:
+      allOf:
+        - $ref: '#/components/schemas/AbstractNotification'
+      type: object
+      required: [payload]
+      properties:
+        action:
+          type: string
+          enum: ['booking.create']
+        payload:
+          oneOf:
+            - $ref: '#/components/schemas/BookingPayload'
+            - $ref: '#/components/schemas/NumericIdPayload'
+
+    BookingUpdateRequest:
+      allOf:
+        - $ref: '#/components/schemas/AbstractWebhookRequest'
+      type: object
+      properties:
+        notifications:
+          type: array
+          items:
+            $ref: '#/components/schemas/BookingUpdateNotification'
+
+    BookingUpdateNotification:
+      allOf:
+        - $ref: '#/components/schemas/AbstractNotification'
+      type: object
+      required: [payload]
+      properties:
+        action:
+          type: string
+          enum: ['booking.update']
+        payload:
+          oneOf:
+            - $ref: '#/components/schemas/BookingPayload'
+            - $ref: '#/components/schemas/NumericIdPayload'
+
+    BookingStatusChangeRequest:
+      allOf:
+        - $ref: '#/components/schemas/AbstractWebhookRequest'
+      type: object
+      properties:
+        notifications:
+          type: array
+          items:
+            $ref: '#/components/schemas/BookingStatusChangeNotification'
+
+    BookingStatusChangeNotification:
+      allOf:
+        - $ref: '#/components/schemas/AbstractNotification'
+      type: object
+      required: [payload]
+      properties:
+        action:
+          type: string
+          enum: ['booking.changestatus']
+        payload:
+          oneOf:
+            - $ref: '#/components/schemas/BookingPayload'
+            - $ref: '#/components/schemas/NumericIdPayload'
+
+    BookingDeleteRequest:
+      allOf:
+        - $ref: '#/components/schemas/AbstractWebhookRequest'
+      type: object
+      properties:
+        notifications:
+          type: array
+          items:
+            $ref: '#/components/schemas/BookingDeleteNotification'
+
+    BookingDeleteNotification:
+      allOf:
+        - $ref: '#/components/schemas/AbstractNotification'
+      type: object
+      required: [payload]
+      properties:
+        action:
+          type: string
+          enum: ['booking.delete']
+        payload:
+          oneOf:
+            - $ref: '#/components/schemas/BookingPayload'
+            - $ref: '#/components/schemas/NumericIdPayload'
+
+    InvoicePostRequest:
+      allOf:
+        - $ref: '#/components/schemas/AbstractWebhookRequest'
+      type: object
+      properties:
+        notifications:
+          type: array
+          items:
+            $ref: '#/components/schemas/InvoicePostNotification'
+
+    InvoicePostNotification:
+      allOf:
+        - $ref: '#/components/schemas/AbstractNotification'
+      type: object
+      required: [payload]
+      properties:
+        action:
+          type: string
+          enum: ['invoice.post']
+        payload:
+          oneOf:
+            - $ref: '#/components/schemas/InvoicePayload'
+            - $ref: '#/components/schemas/NumericIdPayload'
+
+    InvoiceCancelRequest:
+      allOf:
+        - $ref: '#/components/schemas/AbstractWebhookRequest'
+      type: object
+      properties:
+        notifications:
+          type: array
+          items:
+            $ref: '#/components/schemas/InvoiceCancelNotification'
+
+    InvoiceCancelNotification:
+      allOf:
+        - $ref: '#/components/schemas/AbstractNotification'
+      type: object
+      required: [payload]
+      properties:
+        action:
+          type: string
+          enum: ['invoice.cancel']
+        payload:
+          oneOf:
+            - $ref: '#/components/schemas/InvoicePayload'
+            - $ref: '#/components/schemas/NumericIdPayload'
+
+    PaymentCreateRequest:
+      allOf:
+        - $ref: '#/components/schemas/AbstractWebhookRequest'
+      type: object
+      properties:
+        notifications:
+          type: array
+          items:
+            $ref: '#/components/schemas/PaymentCreateNotification'
+
+    PaymentCreateNotification:
+      allOf:
+        - $ref: '#/components/schemas/AbstractNotification'
+      type: object
+      required: [payload]
+      properties:
+        action:
+          type: string
+          enum: ['payment.create']
+        payload:
+          oneOf:
+            - $ref: '#/components/schemas/PaymentPayload'
+            - $ref: '#/components/schemas/NumericIdPayload'
+
+    PaymentDeleteRequest:
+      allOf:
+        - $ref: '#/components/schemas/AbstractWebhookRequest'
+      type: object
+      properties:
+        notifications:
+          type: array
+          items:
+            $ref: '#/components/schemas/PaymentDeleteNotification'
+
+    PaymentDeleteNotification:
+      allOf:
+        - $ref: '#/components/schemas/AbstractNotification'
+      type: object
+      required: [payload]
+      properties:
+        action:
+          type: string
+          enum: ['payment.delete']
+        payload:
+          oneOf:
+            - $ref: '#/components/schemas/PaymentPayload'
+            - $ref: '#/components/schemas/NumericIdPayload'
+
+    CertificateCreateRequest:
+      allOf:
+        - $ref: '#/components/schemas/AbstractWebhookRequest'
+      type: object
+      properties:
+        notifications:
+          type: array
+          items:
+            $ref: '#/components/schemas/CertificateCreateNotification'
+
+    CertificateCreateNotification:
+      allOf:
+        - $ref: '#/components/schemas/AbstractNotification'
+      type: object
+      required: [payload]
+      properties:
+        action:
+          type: string
+          enum: ['certificate.create']
+        payload:
+          oneOf:
+            - $ref: '#/components/schemas/CertificatePayload'
+            - $ref: '#/components/schemas/NumericIdPayload'
+
+    CertificateUpdateRequest:
+      allOf:
+        - $ref: '#/components/schemas/AbstractWebhookRequest'
+      type: object
+      properties:
+        notifications:
+          type: array
+          items:
+            $ref: '#/components/schemas/CertificateUpdateNotification'
+
+    CertificateUpdateNotification:
+      allOf:
+        - $ref: '#/components/schemas/AbstractNotification'
+      type: object
+      required: [payload]
+      properties:
+        action:
+          type: string
+          enum: ['certificate.update']
+        payload:
+          oneOf:
+            - $ref: '#/components/schemas/CertificatePayload'
+            - $ref: '#/components/schemas/NumericIdPayload'
+
+    CertificateFinalizeRequest:
+      allOf:
+        - $ref: '#/components/schemas/AbstractWebhookRequest'
+      type: object
+      properties:
+        notifications:
+          type: array
+          items:
+            $ref: '#/components/schemas/CertificateFinalizeNotification'
+
+    CertificateFinalizeNotification:
+      allOf:
+        - $ref: '#/components/schemas/AbstractNotification'
+      type: object
+      required: [payload]
+      properties:
+        action:
+          type: string
+          enum: ['certificate.finalize']
+        payload:
+          oneOf:
+            - $ref: '#/components/schemas/CertificatePayload'
+            - $ref: '#/components/schemas/NumericIdPayload'
+
+    CertificateVoidRequest:
+      allOf:
+        - $ref: '#/components/schemas/AbstractWebhookRequest'
+      type: object
+      properties:
+        notifications:
+          type: array
+          items:
+            $ref: '#/components/schemas/CertificateVoidNotification'
+
+    CertificateVoidNotification:
+      allOf:
+        - $ref: '#/components/schemas/AbstractNotification'
+      type: object
+      required: [payload]
+      properties:
+        action:
+          type: string
+          enum: ['certificate.void']
+        payload:
+          oneOf:
+            - $ref: '#/components/schemas/CertificatePayload'
+            - $ref: '#/components/schemas/NumericIdPayload'
+
     EventPayload:
       type: object
-      required: [id, title, subtitle, teaser, description, headerPictureUrl, teaserPictureUrl, bookingPageUrl, infoDatesPrices, infoBoardLoding, infoMisc, facilitators, contactPersons, registrationAvailable, detailpageAvailable, previewAvailable, labels, status, datesAreCoherent]
+      required: [id, title, subtitle, teaser, description, headerPictureUrl, teaserPictureUrl, bookingPageUrl, infoDatesPrices, infoBoardLodging, infoMisc, facilitators, contactPersons, registrationAvailable, detailpageAvailable, previewAvailable, labels, datesAreCoherent]
       properties:
-        id: 
+        id:
           $ref: '#/components/schemas/EventId'
         title:
-          $ref: '#/components/schemas/LocalizedString'   
+          $ref: '#/components/schemas/LocalizedString'
         subtitle:
           $ref: '#/components/schemas/LocalizedString'
         teaser:
@@ -239,31 +1038,34 @@ components:
           deprecated: true
           description: This field is deprecated, please refer to `teaserPicture` instead
           allOf:
-            - $ref: "#/components/schemas/LocalizedString"
+            - $ref: '#/components/schemas/LocalizedString'
         teaserPicture:
-          nullable: true
-          allOf:
-            - $ref: '#/components/schemas/ImageIncludingMetaData'
+          $ref: '#/components/schemas/ImageIncludingMetaData'
         headerPictureUrl:
           deprecated: true
           description: This field is deprecated, please refer to `headerPicture` instead
           allOf:
-            - $ref: "#/components/schemas/LocalizedString"
+            - $ref: '#/components/schemas/LocalizedString'
         headerPicture:
-          nullable: true
-          allOf:
-            - $ref: '#/components/schemas/ImageIncludingMetaData'    
+          $ref: '#/components/schemas/ImageIncludingMetaData'
         bookingPageUrl:
-          description: The URL of the booking page for this event
+          description: The URL of the booking page for this event. Empty when the event has no detail page.
+          allOf:
+            - $ref: '#/components/schemas/LocalizedString'
+        externalRegistrationUrl:
+          description: The URL of an external registration. Filled only when the event has a detail page without registration.
           allOf:
             - $ref: '#/components/schemas/LocalizedString'
         infoDatesPrices:
           $ref: '#/components/schemas/LocalizedString'
         infoBoardLodging:
           $ref: '#/components/schemas/LocalizedString'
+        infoBoard:
+          $ref: '#/components/schemas/LocalizedString'
         infoMisc:
           $ref: '#/components/schemas/LocalizedString'
         facilitators:
+          description: Empty when the event does not show its facilitators.
           type: array
           items:
             type: object
@@ -272,32 +1074,42 @@ components:
               id:
                 $ref: '#/components/schemas/NumericPrimaryKey'
         contactPersons:
+          description: Empty when the event does not show its contact information.
           type: array
           items:
-            $ref: '#/components/schemas/ContactPerson'   
+            $ref: '#/components/schemas/ContactPerson'
+        contactInfo:
+          type: string
         registrationAvailable:
           type: boolean
         detailpageAvailable:
-          type: boolean          
+          type: boolean
         previewAvailable:
           type: boolean
         labels:
           type: array
           items:
-            # TODO replace with domain!
-            #$ref: 'https://api.swaggerhub.com/domains/SeminarDesk/commons/1.0.0#/definitions/Label'
             $ref: '#/components/schemas/Label'
         additionalFields:
+          description: Filled only when additional fields are enabled for the webhook payload in the settings.
           type: array
           items:
             $ref: '#/components/schemas/AdditionalField'
+        color:
+          type: string
+          nullable: true
         datesAreCoherent:
           description: Determines whether this event is marked as "multi-part"
           type: boolean
+        externalReferences:
+          type: array
+          items:
+            $ref: '#/components/schemas/ExternalReference'
         availability:
           description: Determines until when the dates of this event should be available for booking
           type: string
           enum: ['UNTIL_BEFORE_FIRST_DATE', 'UNTIL_AFTER_FIRST_DATE', 'UNTIL_BEFORE_LAST_DATE', 'UNTIL_AFTER_LAST_DATE']
+          nullable: true
         childrenAllowed:
           type: boolean
         showAttendanceFees:
@@ -312,8 +1124,8 @@ components:
           type: boolean
         requireOnlinePayment:
           type: boolean
-          default: false            
-  
+          default: false
+
     EventDatePayload:
       type: object
       required: [id, eventId, status, beginDate, endDate, title, attendanceType, facilitators]
@@ -324,13 +1136,15 @@ components:
           $ref: '#/components/schemas/EventId'
         bookingPageStatus:
           type: string
-          enum: 
+          enum:
             - 'available'
             - 'limited'
             - 'fully_booked'
             - 'wait_list'
-            - 'just_on_list'
+            - 'hidden_on_list'
+            - 'hidden'
             - 'canceled'
+          nullable: true
         status:
           type: object
           required: [name, bookingAllowed, isCanceled]
@@ -340,42 +1154,52 @@ components:
             bookingAllowed:
               type: boolean
             isCanceled:
-              type: boolean  
+              type: boolean
         beginDate:
           $ref: '#/components/schemas/Timestamp'
         endDate:
           $ref: '#/components/schemas/Timestamp'
         registrationStart:
-          allOf:
-            - $ref: '#/components/schemas/Timestamp'
+          description: Epoch timestamp in milliseconds
+          type: integer
+          format: int64
           nullable: true
+          example: 1602144000000
         registrationEnd:
-          allOf:
-            - $ref: '#/components/schemas/Timestamp'
+          description: Epoch timestamp in milliseconds
+          type: integer
+          format: int64
           nullable: true
+          example: 1602144000000
         publishedFrom:
-          allOf:
-            - $ref: '#/components/schemas/Timestamp'
+          description: Epoch timestamp in milliseconds
+          type: integer
+          format: int64
           nullable: true
+          example: 1602144000000
         publishedUntil:
-          allOf:
-            - $ref: '#/components/schemas/Timestamp'
+          description: Epoch timestamp in milliseconds
+          type: integer
+          format: int64
           nullable: true
+          example: 1602144000000
         title:
           $ref: '#/components/schemas/LocalizedString'
         priceInfo:
+          description: Contains an empty value when the event does not show its attendance fees.
           allOf:
             - $ref: '#/components/schemas/LocalizedString'
-          nullable: true
+        additionalPriceInfo:
+          $ref: '#/components/schemas/LocalizedString'
         venue:
-          allOf:
-            - $ref: '#/components/schemas/Venue'
-          nullable: true
+          $ref: '#/components/schemas/Venue'
         labels:
+          description: The labels of the event and of this date.
           type: array
           items:
             $ref: '#/components/schemas/Label'
         additionalFields:
+          description: Filled only when additional fields are enabled for the webhook payload in the settings.
           type: array
           items:
             $ref: '#/components/schemas/AdditionalField'
@@ -391,14 +1215,20 @@ components:
           nullable: true
         minAttendanceLength:
           type: integer
-          nullable: true
         maxAttendanceLength:
           type: integer
-          nullable: true
         earlyArrivalMode:
           $ref: '#/components/schemas/EarlyArrivalMode'
         lateDepartureMode:
           $ref: '#/components/schemas/LateDepartureMode'
+        hasBoard:
+          type: boolean
+        hasLodging:
+          type: boolean
+        boardOptional:
+          type: boolean
+        lodgingOptional:
+          type: boolean
         attendanceType:
           type: string
           enum: ['ONLINE', 'ON_SITE', 'SELECTABLE']
@@ -408,11 +1238,14 @@ components:
             $ref: '#/components/schemas/EventDateFacilitator'
         number:
           type: string
-        additionalInfo:
           nullable: true
-          allOf:
-            - $ref: '#/components/schemas/LocalizedString'  
-            
+        externalReferences:
+          type: array
+          items:
+            $ref: '#/components/schemas/ExternalReference'
+        additionalInfo:
+          $ref: '#/components/schemas/LocalizedString'
+
     EventDateFacilitator:
       type: object
       required: [id, name, order]
@@ -423,289 +1256,72 @@ components:
           type: string
           description: Full name of the profile (including title, if any)
         additionalInfo:
-          nullable: true
-          allOf:
-            - $ref: '#/components/schemas/LocalizedString'
+          $ref: '#/components/schemas/LocalizedString'
         order:
-          nullable: false
           type: integer
-        
-    ImageIncludingMetaData:
+
+    EarlyArrivalMode:
+      type: integer
+      enum: [0, 1, 2, 3]
+
+    LateDepartureMode:
+      type: integer
+      enum: [0, 1, 2, 3]
+
+    FacilitatorPayload:
       type: object
-      required: [url, width, height, fileSize]
+      required: [id, name, lastName, about, qualifications, isPublic]
       properties:
-        url:
-          $ref: "#/components/schemas/LocalizedString"
-        alternativeText:
-          $ref: "#/components/schemas/LocalizedString"
+        id:
+          $ref: '#/components/schemas/NumericPrimaryKey'
+        salutation:
+          type: string
+          nullable: true
         title:
-          $ref: "#/components/schemas/LocalizedString"
-        caption:
-          $ref: "#/components/schemas/LocalizedString"
-        width:
-          nullable: false
-          description: Width of the image in pixels
-          type: integer
-        height:
-          nullable: false
-          description: Height of the image in pixels
-          type: integer
-        fileSize:
-          nullable: false
-          description: File size in bytes
-          type: integer
-          format: int64
-          
+          type: string
+          nullable: true
+        name:
+          type: string
+          description: Full name of the profile
+        firstName:
+          type: string
+          nullable: true
+        lastName:
+          type: string
+        about:
+          $ref: '#/components/schemas/LocalizedString'
+        pictureUrl:
+          type: string
+          format: uri
+          nullable: true
+        qualifications:
+          type: array
+          items:
+            $ref: '#/components/schemas/NamedIdReference'
+        remarks:
+          type: string
+          nullable: true
+        isPublic:
+          type: boolean
+
     ProfilePayload:
       type: object
       oneOf:
         - $ref: '#/components/schemas/PersonProfile'
         - $ref: '#/components/schemas/OrganizationProfile'
       discriminator:
-        propertyName: objectType  
-  
-    BookingPayload:
-      type: object
-      allOf:
-        - $ref: 'https://raw.githubusercontent.com/SeminarDesk/private-api-specs/next/private-api.json#/components/schemas/BaseModelProperties'
-        - $ref: 'https://raw.githubusercontent.com/SeminarDesk/private-api-specs/next/private-api.json#/components/schemas/BookingProperties'    
+        propertyName: objectType
+        mapping:
+          PERSON: '#/components/schemas/PersonProfile'
+          ORGANIZATION: '#/components/schemas/OrganizationProfile'
 
-    LabelGroupPayload:
-      type: object
-      required: [id, name, abbreviation, labels]
-      properties:
-        id:
-          $ref: '#/components/schemas/NumericPrimaryKey'
-        name:
-          type: string
-        abbreviation:
-          type: string
-        description:
-          $ref: '#/components/schemas/LocalizedString'
-        pictureUrl:
-          $ref: '#/components/schemas/LocalizedString' 
-        labels:  
-          type: array
-          items:
-            $ref: '#/components/schemas/Label'    
-    
-    EventCreateRequest:
-      allOf:
-        - $ref: '#/components/schemas/AbstractWebhookRequest'
-      type: object
-      properties:
-        notifications:
-          type: array
-          items:
-            $ref: '#/components/schemas/EventCreateNotification'
-
-    EventUpdateRequest:
-      allOf:
-        - $ref: '#/components/schemas/AbstractWebhookRequest'
-      type: object
-      properties:
-        notifications:
-          type: array
-          items:
-            $ref: '#/components/schemas/EventUpdateNotification'
-            
-    EventDeleteRequest:
-      allOf:
-        - $ref: '#/components/schemas/AbstractWebhookRequest'
-      type: object
-      properties:
-        notifications:
-          type: array
-          items:
-            $ref: '#/components/schemas/EventDeleteNotification'
-
-    EventCreateNotification:
-      allOf:
-        - $ref: '#/components/schemas/AbstractNotification'
-      type: object
-      required: [payload]
-      properties:
-        action:
-          type: string
-          enum: ['event.create']
-        payload:
-          $ref: '#/components/schemas/EventPayload'
-
-    EventUpdateNotification:
-      allOf:
-        - $ref: '#/components/schemas/AbstractNotification'
-      type: object
-      required: [payload]
-      properties:
-        action:
-          type: string
-          enum: ['event.update']
-        payload:
-          $ref: '#/components/schemas/EventPayload'
-  
-    EventDeleteNotification:
-      allOf:
-        - $ref: '#/components/schemas/AbstractNotification'
-      type: object
-      required: [payload]
-      properties:
-        action:
-          type: string
-          enum: ['event.delete']
-        payload:
-          $ref: '#/components/schemas/EventPayload' 
-
-    EventDateCreateRequest:
-      allOf:
-        - $ref: '#/components/schemas/AbstractWebhookRequest'
-      type: object
-      properties:
-        notifications:
-          type: array
-          items:
-            $ref: '#/components/schemas/EventDateCreateNotification'
-
-    EventDateUpdateRequest:
-      allOf:
-        - $ref: '#/components/schemas/AbstractWebhookRequest'
-      type: object
-      properties:
-        notifications:
-          type: array
-          items:
-            $ref: '#/components/schemas/EventDateUpdateNotification'
-            
-    EventDateDeleteRequest:
-      allOf:
-        - $ref: '#/components/schemas/AbstractWebhookRequest'
-      type: object
-      properties:
-        notifications:
-          type: array
-          items:
-            $ref: '#/components/schemas/EventDateDeleteNotification'
-
-    EventDateCreateNotification:
-      allOf:
-        - $ref: '#/components/schemas/AbstractNotification'
-      type: object
-      required: [payload]
-      properties:
-        action:
-          type: string
-          enum: ['eventDate.create']
-        payload:
-          $ref: '#/components/schemas/EventDatePayload'
-
-    EventDateUpdateNotification:
-      allOf:
-        - $ref: '#/components/schemas/AbstractNotification'
-      type: object
-      required: [payload]
-      properties:
-        action:
-          type: string
-          enum: ['eventDate.update']
-        payload:
-          $ref: '#/components/schemas/EventDatePayload'
-  
-    EventDateDeleteNotification:
-      allOf:
-        - $ref: '#/components/schemas/AbstractNotification'
-      type: object
-      required: [payload]
-      properties:
-        action:
-          type: string
-          enum: ['eventDate.delete']
-        payload:
-          $ref: '#/components/schemas/EventDatePayload'
-
-    EarlyArrivalMode:
-      type: integer
-      enum: [0, 1, 2, 3]
-      
-    LateDepartureMode:
-      type: integer
-      enum: [0, 1, 2, 3]
-    
-    FacilitatorCreateRequest:
-      allOf:
-        - $ref: '#/components/schemas/AbstractWebhookRequest'
-      type: object
-      properties:
-        notifications:
-          type: array
-          items:
-            $ref: '#/components/schemas/FacilitatorCreateNotification'
-
-    FacilitatorUpdateRequest:
-      allOf:
-        - $ref: '#/components/schemas/AbstractWebhookRequest'
-      type: object
-      properties:
-        notifications:
-          type: array
-          items:
-            $ref: '#/components/schemas/FacilitatorUpdateNotification'
-            
-    FacilitatorDeleteRequest:
-      allOf:
-        - $ref: '#/components/schemas/AbstractWebhookRequest'
-      type: object
-      properties:
-        notifications:
-          type: array
-          items:
-            $ref: '#/components/schemas/FacilitatorDeleteNotification'
-
-    FacilitatorCreateNotification:
-      allOf:
-        - $ref: '#/components/schemas/AbstractNotification'
-      type: object
-      required: [payload]
-      properties:
-        action:
-          type: string
-          enum: ['facilitator.create']
-        payload:
-          $ref: '#/components/schemas/FacilitatorPayload'
-
-    FacilitatorUpdateNotification:
-      allOf:
-        - $ref: '#/components/schemas/AbstractNotification'
-      type: object
-      required: [payload]
-      properties:
-        action:
-          type: string
-          enum: ['facilitator.update']
-        payload:
-          $ref: '#/components/schemas/FacilitatorPayload'
-  
-    FacilitatorDeleteNotification:
-      allOf:
-        - $ref: '#/components/schemas/AbstractNotification'
-      type: object
-      required: [payload]
-      properties:
-        action:
-          type: string
-          enum: ['facilitator.delete']
-        payload:
-          $ref: '#/components/schemas/FacilitatorPayload'  
-
-    ProfileCreateNotification:
-      allOf:
-        - $ref: '#/components/schemas/AbstractNotification'
-      type: object
-      required: [payload]
-      properties:
-        action:
-          type: string
-          enum: ['profile.create']
-        payload:
-          $ref: '#/components/schemas/ProfilePayload'
+    ProfileMergePayload:
+      description: The kept profile (`mergeStatus` `MERGED`) and the removed profile (`mergeStatus` `DELETED`).
+      type: array
+      minItems: 2
+      maxItems: 2
+      items:
+        $ref: '#/components/schemas/ProfilePayload'
 
     PersonProfile:
       type: object
@@ -715,6 +1331,7 @@ components:
       properties:
         title:
           type: string
+          nullable: true
         firstName:
           type: string
           nullable: true
@@ -733,7 +1350,6 @@ components:
         salutationType:
           type: string
           enum: [FORMAL, INFORMAL]
-          nullable: true
         privatePhoneNumber:
           type: string
           nullable: true
@@ -746,15 +1362,18 @@ components:
         preferredAddress:
           type: string
           enum: [PRIVATE, INVOICE, PRIMARY_ORGANIZATION]
-          nullable: true
         preferredEmail:
           type: string
           enum: [PRIVATE, ALTERNATIVE, INVOICE, PRIMARY_ORGANIZATION]
-          nullable: true
         preferredPhoneNumber:
           type: string
           enum: [PRIVATE, ALTERNATIVE, BUSINESS, PRIMARY_ORGANIZATION]
-          nullable: true
+        preferredBillingAddress:
+          type: string
+          enum: [PRIVATE, INVOICE, PRIMARY_ORGANIZATION]
+        preferredInvoiceEmail:
+          type: string
+          enum: [PRIVATE, ALTERNATIVE, INVOICE, PRIMARY_ORGANIZATION]
         isSubscribedToNewsletter:
           type: boolean
         isFacilitator:
@@ -768,7 +1387,12 @@ components:
         additionalName:
           type: string
           nullable: true
-        # TODO add more properties of organization profile
+        preferredBillingAddress:
+          type: string
+          enum: [BUSINESS, INVOICE]
+        preferredInvoiceEmail:
+          type: string
+          enum: [BUSINESS, ALTERNATIVE, INVOICE]
 
     AbstractProfile:
       type: object
@@ -776,11 +1400,16 @@ components:
       properties:
         id:
           $ref: '#/components/schemas/NumericPrimaryKey'
+        mergeStatus:
+          description: Present only in `profile.merge` notifications.
+          type: string
+          enum: [MERGED, DELETED]
         objectType:
           type: string
           enum: [PERSON, ORGANIZATION]
         salutation:
           type: string
+          nullable: true
         name:
           type: string
         language:
@@ -788,16 +1417,17 @@ components:
           nullable: true
         labels:
           type: array
-          nullable: true
           items:
             $ref: '#/components/schemas/Label'
         email:
           type: string
-          format: email
           nullable: true
         alternativeEmail:
           type: string
-          format: email
+          nullable: true
+        effectiveInvoiceEmail:
+          description: The email address invoices are sent to
+          type: string
           nullable: true
         website:
           type: string
@@ -810,16 +1440,7 @@ components:
         billingAddressActive:
           type: boolean
         billingAddress:
-          allOf:
-            - $ref: '#/components/schemas/Address'
-            - type: object
-              required: [name]
-              properties:
-                name:
-                  type: string
-                email:
-                  type: string
-                  format: email
+          $ref: '#/components/schemas/BillingAddress'
         remarks:
           type: string
           nullable: true
@@ -833,7 +1454,6 @@ components:
           nullable: true
         bankAccountData:
           type: object
-          nullable: true
           properties:
             bankName:
               type: string
@@ -859,10 +1479,15 @@ components:
           type: string
           nullable: true
         additionalFields:
-          description: Map of all additional fields with values for this profile
-          type: object
-        # TODO add data protection values and linked organizations
-          
+          description: Filled only when additional fields are enabled for the webhook payload in the settings.
+          type: array
+          items:
+            $ref: '#/components/schemas/AdditionalField'
+        externalReferences:
+          type: array
+          items:
+            $ref: '#/components/schemas/ExternalReference'
+
     Address:
       type: object
       properties:
@@ -886,194 +1511,120 @@ components:
           nullable: true
         country:
           type: object
-          nullable: true
           properties:
-            code: 
+            code:
               description: ISO country code
               type: string
+              nullable: true
             name:
-              description: Country name 
+              description: Country name
               type: string
+              nullable: true
               example: 'Germany'
             localizedName:
-              description: Localized country name, depending on the 
+              description: Country name in the language of the profile
               type: string
+              nullable: true
               example: 'Allemagne'
-  
-    FacilitatorPayload:
-      type: object
+
+    BillingAddress:
       allOf:
-        - $ref: '#/components/schemas/PersonProfile'
+        - $ref: '#/components/schemas/Address'
+        - type: object
+          properties:
+            name:
+              type: string
+              nullable: true
+            email:
+              type: string
+              nullable: true
+
+    LabelGroupPayload:
+      type: object
+      required: [id, name, abbreviation, labels]
       properties:
-        about:
+        id:
+          $ref: '#/components/schemas/NumericPrimaryKey'
+        name:
+          type: string
+        abbreviation:
+          type: string
+        description:
           $ref: '#/components/schemas/LocalizedString'
         pictureUrl:
-          nullable: true
-          type: string
-          format: uri
-    
-    LabelGroupCreateRequest:
-      allOf:
-        - $ref: '#/components/schemas/AbstractWebhookRequest'
-      type: object
-      properties:
-        notifications:
+          $ref: '#/components/schemas/LocalizedString'
+        labels:
           type: array
           items:
-            $ref: '#/components/schemas/LabelGroupCreateNotification'
+            $ref: '#/components/schemas/Label'
+        showAsFilter:
+          type: boolean
 
-    LabelGroupUpdateRequest:
-      allOf:
-        - $ref: '#/components/schemas/AbstractWebhookRequest'
-      type: object
-      properties:
-        notifications:
-          type: array
-          items:
-            $ref: '#/components/schemas/LabelGroupUpdateNotification'
-            
-    LabelGroupDeleteRequest:
-      allOf:
-        - $ref: '#/components/schemas/AbstractWebhookRequest'
-      type: object
-      properties:
-        notifications:
-          type: array
-          items:
-            $ref: '#/components/schemas/LabelGroupDeleteNotification'
+    BookingPayload:
+      $ref: 'https://raw.githubusercontent.com/SeminarDesk/private-api-specs/next/private-api.json#/components/schemas/Booking'
 
-    BookingCreateRequest:
-      allOf:
-        - $ref: '#/components/schemas/AbstractWebhookRequest'
-      type: object
-      properties:
-        notifications:
-          type: array
-          items:
-            $ref: '#/components/schemas/BookingCreateNotification'
-    
-    BookingStatusChangeRequest:
-      allOf:
-        - $ref: '#/components/schemas/AbstractWebhookRequest'
-      type: object
-      properties:
-        notifications:
-          type: array
-          items:
-            $ref: '#/components/schemas/BookingStatusChangeNotification'
-    
-    BookingDeleteRequest:
-      allOf:
-        - $ref: '#/components/schemas/AbstractWebhookRequest'
-      type: object
-      properties:
-        notifications:
-          type: array
-          items:
-            $ref: '#/components/schemas/BookingDeleteNotification'
-
-    LabelGroupCreateNotification:
-      allOf:
-        - $ref: '#/components/schemas/AbstractNotification'
-      type: object
-      required: [payload]
-      properties:
-        action:
-          type: string
-          enum: ['labelGroup.create']
-        payload:
-          $ref: '#/components/schemas/LabelGroupPayload'
-
-    LabelGroupUpdateNotification:
-      allOf:
-        - $ref: '#/components/schemas/AbstractNotification'
-      type: object
-      required: [payload]
-      properties:
-        action:
-          type: string
-          enum: ['labelGroup.update']
-        payload:
-          $ref: '#/components/schemas/LabelGroupPayload'
-  
-    LabelGroupDeleteNotification:
-      allOf:
-        - $ref: '#/components/schemas/AbstractNotification'
-      type: object
-      required: [payload]
-      properties:
-        action:
-          type: string
-          enum: ['labelGroup.delete']
-        payload:
-          $ref: '#/components/schemas/LabelGroupPayload'  
-    
-    BookingCreateNotification:
-      allOf:
-        - $ref: '#/components/schemas/AbstractNotification'
-      type: object
-      required: [payload]
-      properties:
-        action:
-          type: string
-          enum: ['booking.create']
-        payload:
-          $ref: '#/components/schemas/BookingPayload'
-    
-    BookingStatusChangeNotification:
-      allOf:
-        - $ref: '#/components/schemas/AbstractNotification'
-      type: object
-      required: [payload]
-      properties:
-        action:
-          type: string
-          enum: ['booking.changestatus']
-        payload:
-          $ref: '#/components/schemas/BookingPayload'
-    
-    BookingDeleteNotification:
-      allOf:
-        - $ref: '#/components/schemas/AbstractNotification'
-      type: object
-      required: [payload]
-      properties:
-        action:
-          type: string
-          enum: ['booking.delete']
-        payload:
-          $ref: '#/components/schemas/BookingPayload'
-          
     InvoicePayload:
+      $ref: 'https://raw.githubusercontent.com/SeminarDesk/private-api-specs/next/private-api.json#/components/schemas/Invoice'
+
+    CertificatePayload:
+      $ref: 'https://raw.githubusercontent.com/SeminarDesk/private-api-specs/next/private-api.json#/components/schemas/Certificate'
+
+    PaymentPayload:
       type: object
-      allOf:
-        - $ref: 'https://raw.githubusercontent.com/SeminarDesk/private-api-specs/next/private-api.json#/components/schemas/BaseModelProperties'
-        - $ref: 'https://raw.githubusercontent.com/SeminarDesk/private-api-specs/next/private-api.json#/components/schemas/InvoiceProperties'    
-          
-    InvoicePostedRequest:
-      allOf:
-        - $ref: '#/components/schemas/AbstractNotification'
-      type: object
-      required: [payload]
+      required: [booking, payment]
       properties:
-        action:
-          type: string
-          enum: ['invoice.posted']
-        payload:
-          $ref: '#/components/schemas/InvoicePayload'
-          
-    InvoiceCanceledRequest:
-      allOf:
-        - $ref: '#/components/schemas/AbstractNotification'
+        booking:
+          type: object
+          required: [id, booker]
+          properties:
+            id:
+              $ref: '#/components/schemas/NumericPrimaryKey'
+            booker:
+              $ref: '#/components/schemas/NamedIdReference'
+        payment:
+          type: object
+          required: [id, amount, date]
+          properties:
+            id:
+              $ref: '#/components/schemas/NumericPrimaryKey'
+            amount:
+              description: The amount can be a negative or positive number
+              type: number
+              format: double
+              example: 23.42
+            date:
+              type: string
+              format: date
+            remarks:
+              type: string
+              nullable: true
+            method:
+              type: object
+              nullable: true
+              required: [code]
+              properties:
+                code:
+                  description: Unique code of the payment method
+                  type: string
+
+    NumericIdPayload:
+      description: Sent instead of the full payload when the webhook is not set to send extended payloads.
       type: object
-      required: [payload]
+      required: [id]
+      additionalProperties: false
       properties:
-        action:
-          type: string
-          enum: ['invoice.canceled']
-        payload:
-          $ref: '#/components/schemas/InvoicePayload'
-    
+        id:
+          $ref: '#/components/schemas/NumericPrimaryKey'
+
+    EventIdPayload:
+      description: Sent instead of the full payload when the webhook is not set to send extended payloads.
+      type: object
+      required: [id]
+      additionalProperties: false
+      properties:
+        id:
+          $ref: '#/components/schemas/EventId'
+
     LocalizedString:
       type: array
       items:
@@ -1084,80 +1635,110 @@ components:
             type: string
           value:
             type: string
+            nullable: true
       example:
         - language: 'DE'
           value: 'Beispiel-Text'
         - language: 'EN'
           value: 'Example text'
-    
+
     ContactPerson:
       type: object
       required: [firstName, lastName, phone, email]
       properties:
         firstName:
           type: string
+          nullable: true
         lastName:
           type: string
+          nullable: true
         phone:
           type: string
+          nullable: true
         email:
           type: string
-    
+          nullable: true
+        department:
+          type: string
+          nullable: true
+
     EventId:
       type: string
       description: UUID minus the `-`
       example: '37eb4c5704f8461b83dcf0723ab983e8'
-      
+
     Timestamp:
       type: integer
       description: Epoch timestamp in milliseconds
-      example: 1602144000000      
-      
+      example: 1602144000000
+
     Label:
       type: object
       required: [id, abbreviation, name, description, pictureUrl, labelGroup]
       properties:
         id:
           $ref: '#/components/schemas/NumericPrimaryKey'
-        abbreviation: 
+        abbreviation:
           type: string
         name:
           type: string
         description:
-          allOf:
-            - $ref: '#/components/schemas/LocalizedString'
-          nullable: true
+          $ref: '#/components/schemas/LocalizedString'
         pictureUrl:
-          allOf:
-            - $ref: '#/components/schemas/LocalizedString'
+          $ref: '#/components/schemas/LocalizedString'
+        color:
+          type: string
           nullable: true
+        order:
+          type: integer
         labelGroup:
-          type: object
-          properties:
-            id:
-              $ref: '#/components/schemas/NumericPrimaryKey'
-            name:
-              type: string
-   
+          $ref: '#/components/schemas/NamedIdReference'
+
     AdditionalField:
       type: object
       required: [id, name, value, description, isUsed, order]
       properties:
         id:
           $ref: '#/components/schemas/NumericPrimaryKey'
-        name: 
+        name:
           type: string
         value:
-          type: string
+          description: Depends on the field type. Yes/no fields send a boolean, date fields a `Timestamp`, number and currency fields a number, single-choice fields the option name, multiple-choice fields an array of option names, all other fields a string. Can be null.
         description:
           type: string
+          nullable: true
         isUsed:
           type: boolean
         order:
           type: integer
-   
+
+    ExternalReference:
+      type: object
+      required: [id, system, externalId]
+      properties:
+        id:
+          $ref: '#/components/schemas/NumericPrimaryKey'
+        system:
+          $ref: '#/components/schemas/NamedIdReference'
+        externalId:
+          type: string
+        url:
+          type: string
+          nullable: true
+
+    NamedIdReference:
+      type: object
+      required: [id, name]
+      properties:
+        id:
+          $ref: '#/components/schemas/NumericPrimaryKey'
+        name:
+          type: string
+          nullable: true
+
     Venue:
       type: object
+      nullable: true
       required: [id, name]
       properties:
         id:
@@ -1166,36 +1747,72 @@ components:
           type: string
         street1:
           type: string
-        street2: 
+          nullable: true
+        street2:
           type: string
-        zip: 
+          nullable: true
+        zip:
           type: string
-        city: 
+          nullable: true
+        city:
           type: string
-        country: 
+          nullable: true
+        country:
           type: string
-        weblink: 
+          nullable: true
+        weblink:
           type: string
+          nullable: true
         phone:
           type: string
+          nullable: true
         email:
           type: string
-          format: email
+          nullable: true
         directionMapUrl:
-          type: string
-          format: uri
+          $ref: '#/components/schemas/LocalizedString'
         remarks:
           type: string
-    
+          nullable: true
+
+    ImageIncludingMetaData:
+      type: object
+      nullable: true
+      required: [url, width, height, fileSize]
+      properties:
+        url:
+          $ref: '#/components/schemas/LocalizedString'
+        alternativeText:
+          $ref: '#/components/schemas/LocalizedString'
+        title:
+          $ref: '#/components/schemas/LocalizedString'
+        caption:
+          $ref: '#/components/schemas/LocalizedString'
+        width:
+          nullable: false
+          description: Width of the image in pixels
+          type: integer
+        height:
+          nullable: false
+          description: Height of the image in pixels
+          type: integer
+        fileSize:
+          nullable: false
+          description: File size in bytes
+          type: integer
+          format: int64
     AbstractNotification:
       type: object
       required: [action]
       properties:
         action:
           type: string
-          enum: ['event.create', 'event.update', 'event.delete', 'eventDate.create', 'eventDate.update', 'eventDate.delete', 'facilitator.create', 'facilitator.update', 'facilitator.delete', 'labelGroup.create', 'labelGroup.update', 'labelGroup.delete', 'profile.create', 'profile.update', 'profile.delete', 'profile.merge']
-            
+          enum: ['event.create', 'event.update', 'event.delete', 'eventDate.create', 'eventDate.update', 'eventDate.delete', 'facilitator.create', 'facilitator.update', 'facilitator.delete', 'labelGroup.create', 'labelGroup.update', 'labelGroup.delete', 'profile.create', 'profile.update', 'profile.delete', 'profile.merge', 'booking.create', 'booking.update', 'booking.changestatus', 'booking.delete', 'invoice.post', 'invoice.cancel', 'payment.create', 'payment.delete', 'certificate.create', 'certificate.update', 'certificate.finalize', 'certificate.void']
+
     AbstractWebhookRequest:
+      description: |
+        One request can carry notifications of several actions: publishing an event sends `event.create` together with an `eventDate.create` for each of its published dates, and "Send all items" in the webhook settings sends all current items in one request.
+        Depending on the webhook setting "extended payload", each notification carries either the full payload or only the id of the changed object.
       type: object
       required: [id, attempt, properties, notifications]
       properties:
@@ -1210,7 +1827,13 @@ components:
           properties:
             timestamp:
               $ref: '#/components/schemas/Timestamp'
-              
+            extendedPayload:
+              description: Whether the notifications carry the full payload (`true`) or only the id (`false` or missing)
+              type: boolean
+            sender:
+              type: string
+              example: 'SeminarDesk'
+
     NumericPrimaryKey:
       type: integer
       format: int64
